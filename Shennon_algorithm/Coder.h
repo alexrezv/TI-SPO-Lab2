@@ -10,6 +10,7 @@
 #include <cmath>
 #include "../StringParser/StringParser.h"
 #include "../util/VectorUtil.h"
+#include "../util/Writer.h"
 
 
 class Coder {

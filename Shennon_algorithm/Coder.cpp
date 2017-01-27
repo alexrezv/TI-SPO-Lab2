@@ -11,9 +11,10 @@ Coder::Coder(std::string aFilename, std::string pFilename) {
     //VectorUtil<std::string>::printVector(&this->sourceAlphabet, " , ");
 
     this->sortAlphabetAndP();
-    //std::cout << "-----------------------------------------------------------" << std::endl;
-    //VectorUtil<float>::printVector(&this->p, " , ");
-    //VectorUtil<std::string>::printVector(&this->sourceAlphabet, " , ");
+    Writer<std::string>::writeVector(&this->sourceAlphabet, "sortedAlphabet");
+    std::cout << "-----------------------------------------------------------" << std::endl;
+    VectorUtil<float>::printVector(&this->p, " , ");
+    VectorUtil<std::string>::printVector(&this->sourceAlphabet, " , ");
 
     this->setQ();
     //std::cout << "------------------ Q is ---------------------" << std::endl;
@@ -24,8 +25,9 @@ Coder::Coder(std::string aFilename, std::string pFilename) {
     //VectorUtil<float>::printVector(&this->l, " , ");
 
     this->setCode();
-    //std::cout << "------------------ Code is ---------------------" << std::endl;
-    //VectorUtil<std::string>::printVector(&this->code, " , ");
+    Writer<std::string>::writeVector(&this->code, "code");
+    std::cout << "------------------ Code is ---------------------" << std::endl;
+    VectorUtil<std::string>::printVector(&this->code, " , ");
 
 }
 

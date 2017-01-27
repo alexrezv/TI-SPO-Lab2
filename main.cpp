@@ -4,6 +4,7 @@
 #include "StringParser/StringParser.h"
 #include "Shennon_algorithm/Coder.h"
 #include "Shennon_algorithm/Decoder.h"
+#include "util/VectorUtil.h"
 
 using namespace std;
 
@@ -27,7 +28,6 @@ int main(int argc, char *argv[]) {
     message = sp.parseMessage(readMessage());
     Coder shC = Coder("alphabet", "probabilityOfOccurrence");
     cout << shC.codeMessage(message) << endl;
-
     Decoder shD = Decoder(shC.getSourceAlphabet(), shC.getCode());
     cout << shD.decodeMessage(shC.codeMessage(message)) << endl;
 
