@@ -4,7 +4,6 @@
 #include "StringParser/StringParser.h"
 #include "Shennon_algorithm/Coder.h"
 #include "Shennon_algorithm/Decoder.h"
-#include "util/VectorUtil.h"
 
 using namespace std;
 
