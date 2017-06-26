@@ -4,37 +4,28 @@
 
 #include "Coder.h"
 
-Coder::Coder(std::string aFilename, std::string pFilename) {
-    this->setSourceAlphabet(aFilename);
-    this->setP(pFilename);
-    //VectorUtil<float>::printVector(&this->p, " , ");
-    //VectorUtil<std::string>::printVector(&this->sourceAlphabet, " , ");
+Coder::Coder(std::string alphabetFile, std::string probabilityFile) {
+    //Инициализации
+    this->setSourceAlphabet(alphabetFile);
+    this->setP(probabilityFile);
 
+    //Все буквы из алфавита записываются по убыванию вероятностей встречаемости в сообщениях.
     this->sortAlphabetAndP();
-    //std::cout << "-----------------------------------------------------------" << std::endl;
-    //VectorUtil<float>::printVector(&this->p, " , ");
-    //VectorUtil<std::string>::printVector(&this->sourceAlphabet, " , ");
+    Writer<std::string>::writeVector(&this->sourceAlphabet, "alphabet", ",");
+    Writer<float>::writeVector(&this->p, "probabilityOfOccurrence", ",");
 
-    this->setQ();
-    //std::cout << "------------------ Q is ---------------------" << std::endl;
-    //VectorUtil<float>::printVector(&this->q, " , ");
-
+    this->setQ();   // Каждой букве ставится в соответствие кумулятивная вероятность по правилу: q1=0, q2=P1,...
     this->setL();
-    //std::cout << "------------------ L is ---------------------" << std::endl;
-    //VectorUtil<float>::printVector(&this->l, " , ");
-
     this->setCode();
-    //std::cout << "------------------ Code is ---------------------" << std::endl;
-    //VectorUtil<std::string>::printVector(&this->code, " , ");
-
+    Writer<std::string>::writeVector(&this->code, "code", ",");
 }
 
 void Coder::setSourceAlphabet(std::string filename) {
     this->sourceAlphabet = StringParser::getLineFromFile(filename);
 }
 
-std::vector<std::string> Coder::getSourceAlphabet() {
-    return this->sourceAlphabet;
+std::vector<std::string> *Coder::getSourceAlphabet() {
+    return &(this->sourceAlphabet);
 }
 
 void Coder::setP(std::string filename) {
@@ -46,8 +37,8 @@ void Coder::setP(std::string filename) {
     this->p = nums;
 }
 
-std::vector<float> Coder::getP() {
-    return this->p;
+std::vector<float> *Coder::getP() {
+    return &(this->p);
 }
 //--
 /*
@@ -59,8 +50,8 @@ void Coder::sortAlphabetAndP() {
     for (int i = 0; i < this->p.size(); ++i) {
         for (int j = 0; j < this->p.size() - 1; ++j) {
             if (this->p.at(j) < this->p.at(j + 1)) {
-                VectorUtil<float>::swapElements(&this->p, j, j+1);
-                VectorUtil<std::string>::swapElements(&this->sourceAlphabet, j, j+1);
+                VectorUtil<float>::swapElements(&this->p, j, j + 1);
+                VectorUtil<std::string>::swapElements(&this->sourceAlphabet, j, j + 1);
             }
         }
     }
@@ -74,42 +65,38 @@ void Coder::setQ() {
     }
 }
 
-std::vector<float> Coder::getQ() {
-    return this->q;
+std::vector<float> *Coder::getQ() {
+    return &(this->q);
 }
 
 void Coder::setL() {
     for (int i = 0; i < this->p.size(); ++i) {
-        l.push_back( std::fabs( std::logb(this->p.at(i)) ) );
+        l.push_back(std::fabs(std::logb(this->p.at(i))));
     }
 }
 
-std::vector<float> Coder::getL() {
-    return this->l;
+std::vector<float> *Coder::getL() {
+    return &(this->l);
 }
 
 void Coder::setCode() {
-    /*for (int k = 0; k < 6; k++) {
-        code[k] = dec_to_bin(q[k], l[k]);
-        cout << code[k] << endl;
-    }*/
     for (int i = 0; i < this->q.size(); ++i) {
-        this->code.push_back( this->decToBin( this->q.at(i), this->l.at(i) ));
+        this->code.push_back(this->decToBin(this->q.at(i), this->l.at(i)));
     }
 }
 
-std::vector<std::string> Coder::getCode() {
-    return this->code;
+std::vector<std::string> *Coder::getCode() {
+    return &(this->code);
 }
 
 std::string Coder::decToBin(float num, int c) {
     float intpart;
-    float buf = std::modf (num , &intpart);
+    float buf = std::modf(num, &intpart);
     std::string cs = "";
 
     for (int i = 0; i < c; ++i) {
-        buf = std::modf ( buf*2 , &intpart);
-        cs+= std::to_string(intpart).substr(0,1);
+        buf = std::modf(buf * 2, &intpart);
+        cs += std::to_string(intpart).substr(0, 1);
     }
 
     return cs;
@@ -126,12 +113,13 @@ std::string Coder::codeMessage(std::vector<std::string> message) {
             }
         }
     }
-
+    Writer<std::string>::writeVector(&encMsg, "codedMessage", "");
+    //VectorUtil<string>::printVector(&encMsg,",");
     return encrMsg;
 
 }
 
-void Coder::setLastEncryptedMessage (std::vector<std::string> lem) {
+void Coder::setLastEncryptedMessage(std::vector<std::string> lem) {
     this->lastEncryptedMessage = lem;
 }
 

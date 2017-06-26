@@ -10,13 +10,10 @@ StringParser::StringParser(std::string filename) {
 }
 
 std::vector<std::string> StringParser::parseWords(std::string message) {
-    std::cout << message << std::endl;
-
     std::vector<std::string> words;
 
-    for (int i = 0; i < this->sourceAlphabet.size(); ++i) {
-        int j = 0;
-        for (; j < message.length(); ++j) {
+    for (unsigned long i = 0; i < this->sourceAlphabet.size(); ++i) {
+        for (unsigned long j = 0; j < message.length(); ++j) {
             std::string s = message.substr(j, this->sourceAlphabet.at(i).size());
             if (s.compare(this->sourceAlphabet.at(i)) == 0) {
                 words.push_back(s);
@@ -48,6 +45,7 @@ std::vector<std::string> StringParser::getLineFromFile(std::string filename) {
     while (getline(lineStream, cell, ',')) {
         result.push_back(cell);
     }
+
     // This checks for a trailing comma with no data after it.
     if (!lineStream && cell.empty()) {
         // If there was a trailing comma then add an empty element.
@@ -68,10 +66,10 @@ std::vector<std::string> StringParser::parseMessage(std::string message) {
     std::string wordsFromMessage[100] = {};
     std::vector<std::string> words = this->parseWords(message);
 
-    for (int i = 0; i < words.size(); ++i) {
-        long posOfWord = message.find(words.at(i), 0);
+    for (unsigned long i = 0; i < words.size(); ++i) {
+        unsigned long posOfWord = message.find(words.at(i), 0);
         wordsFromMessage[posOfWord] = words.at(i);
-        for (int j = posOfWord; j < posOfWord+words.at(i).size(); ++j) {
+        for (unsigned long j = posOfWord; j < posOfWord + words.at(i).size(); ++j) {
             char dot = '.';
             message.at(j) = dot;
         }

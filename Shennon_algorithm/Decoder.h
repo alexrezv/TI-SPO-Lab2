@@ -18,7 +18,7 @@ public:
 
     std::string decodeMessage(std::string);
 
-    int compareToCode(std::string);
+    long compareToCode(std::string);
 };
 
 

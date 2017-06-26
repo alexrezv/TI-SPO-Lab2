@@ -27,11 +27,11 @@ std::string Decoder::decodeMessage(std::string message) {
     return decoded;
 }
 
-int Decoder::compareToCode(std::string symbol) {
-    for (int i = 0; i < this->codeAlphabet.size(); ++i) {
+long Decoder::compareToCode(std::string symbol) {
+    for (unsigned long i = 0; i < this->codeAlphabet.size(); ++i) {
         if (symbol.compare(this->codeAlphabet.at(i)) == 0) {
             return i;
         }
     }
-    return -1;
+    return (long) -1;
 }
