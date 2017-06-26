@@ -14,10 +14,11 @@
 class StringParser {
 private:
     std::vector<std::string> sourceAlphabet;
+
     void setSourceAlphabet(std::string filename);
 
 public:
-    StringParser(std::string);
+    explicit StringParser(std::string);
 
     std::vector<std::string> getSourceAlphabet();
 
