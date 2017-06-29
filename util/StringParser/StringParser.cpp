@@ -9,22 +9,6 @@ StringParser::StringParser(std::string filename) {
     this->setSourceAlphabet(filename);
 }
 
-std::vector<std::string> StringParser::parseWords(std::string message) {
-    std::vector<std::string> words;
-
-    for (unsigned long i = 0; i < this->sourceAlphabet.size(); ++i) {
-        for (unsigned long j = 0; j < message.length(); ++j) {
-            std::string s = message.substr(j, this->sourceAlphabet.at(i).size());
-            if (s.compare(this->sourceAlphabet.at(i)) == 0) {
-                words.push_back(s);
-                message.erase(j, this->sourceAlphabet.at(i).size());
-                message.insert(j, " ");
-            }
-        }
-    }
-    return words;
-}
-
 void StringParser::setSourceAlphabet(std::string filename) {
     this->sourceAlphabet = getLineFromFile(filename);
 }
@@ -62,25 +46,46 @@ std::vector<std::string> StringParser::getSourceAlphabet() {
 /**
  * @returns vector of strings(symbols) in the same order as they appear in message */
 std::vector<std::string> StringParser::parseMessage(std::string message) {
-    std::vector<std::string> messageV;
-    std::string wordsFromMessage[100] = {};
-    std::vector<std::string> words = this->parseWords(message);
+    std::vector<std::string> words;
 
-    for (unsigned long i = 0; i < words.size(); ++i) {
-        unsigned long posOfWord = message.find(words.at(i), 0);
-        wordsFromMessage[posOfWord] = words.at(i);
-        for (unsigned long j = posOfWord; j < posOfWord + words.at(i).size(); ++j) {
-            char dot = '.';
-            message.at(j) = dot;
-        }
-        words.at(i) = "x";
+    while (message.size() > 1) {
+        std::string firstLongestWord = getFirstLongestValidWord(message);
+        words.push_back(firstLongestWord);
+        message.erase(0, firstLongestWord.size());
     }
 
-    for (int k = 0; k < 100; ++k) {
-        if (wordsFromMessage[k] != "") {
-            messageV.push_back(wordsFromMessage[k]);
+    return words;
+}
+
+unsigned long StringParser::getMaxWordLength() {
+    unsigned long currentMax = 0;
+    for (int i = 0; i < this->sourceAlphabet.size(); ++i) {
+        if (currentMax < this->sourceAlphabet[i].size()) {
+            currentMax = this->sourceAlphabet[i].size();
         }
     }
+    return currentMax;
+}
 
-    return messageV;
+std::string StringParser::getFirstLongestValidWord(std::string string) {
+    std::string word;
+
+    unsigned long maxWordLength = getMaxWordLength();
+    for (unsigned long i = 0; i < 3; ++i) {
+        word = string.substr(0, maxWordLength - i);
+        if (ifValidWord(word)) break;
+    }
+
+    return word;
+}
+
+bool StringParser::ifValidWord(std::string word) {
+    bool validation = false;
+    for (int i = 0; i < this->sourceAlphabet.size(); ++i) {
+        if (word.compare(this->sourceAlphabet[i]) == 0) {
+            validation = true;
+            break;
+        }
+    }
+    return validation;
 }

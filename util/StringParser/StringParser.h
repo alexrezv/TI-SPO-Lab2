@@ -17,14 +17,18 @@ private:
 
     void setSourceAlphabet(std::string filename);
 
+    unsigned long getMaxWordLength();
+
+    std::string getFirstLongestValidWord(std::string);
+
+    bool ifValidWord(std::string);
+
 public:
     explicit StringParser(std::string);
 
     std::vector<std::string> getSourceAlphabet();
 
     static std::vector<std::string> getLineFromFile(std::string filename);
-
-    std::vector<std::string> parseWords(std::string);
 
     std::vector<std::string> parseMessage(std::string);
 
