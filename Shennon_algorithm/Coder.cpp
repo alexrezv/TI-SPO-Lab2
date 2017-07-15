@@ -12,7 +12,7 @@ Coder::Coder(std::string alphabetFile, std::string probabilityFile) {
     //Все буквы из алфавита записываются по убыванию вероятностей встречаемости в сообщениях.
     this->sortAlphabetAndP();
     Writer<std::string>::writeVector(&this->sourceAlphabet, "alphabet", ",");
-    Writer<float>::writeVector(&this->p, "probabilityOfOccurrence", ",");
+    Writer<double>::writeVector(&this->p, "probabilityOfOccurrence", ",");
 
     this->setQ();   // Каждой букве ставится в соответствие кумулятивная вероятность по правилу: q1=0, q2=P1,...
     this->setL();
@@ -30,14 +30,14 @@ std::vector<std::string> *Coder::getSourceAlphabet() {
 
 void Coder::setP(std::string filename) {
     std::vector<std::string> strs = StringParser::getLineFromFile(filename);
-    std::vector<float> nums;
+    std::vector<double> nums;
     for (int i = 0; i < strs.size(); ++i) {
         nums.push_back(atof(strs.at(i).c_str()));
     }
     this->p = nums;
 }
 
-std::vector<float> *Coder::getP() {
+std::vector<double> *Coder::getP() {
     return &(this->p);
 }
 //--
@@ -50,7 +50,7 @@ void Coder::sortAlphabetAndP() {
     for (int i = 0; i < this->p.size(); ++i) {
         for (int j = 0; j < this->p.size() - 1; ++j) {
             if (this->p.at(j) < this->p.at(j + 1)) {
-                VectorUtil<float>::swapElements(&this->p, j, j + 1);
+                VectorUtil<double>::swapElements(&this->p, j, j + 1);
                 VectorUtil<std::string>::swapElements(&this->sourceAlphabet, j, j + 1);
             }
         }
@@ -65,7 +65,7 @@ void Coder::setQ() {
     }
 }
 
-std::vector<float> *Coder::getQ() {
+std::vector<double> *Coder::getQ() {
     return &(this->q);
 }
 
@@ -75,7 +75,7 @@ void Coder::setL() {
     }
 }
 
-std::vector<float> *Coder::getL() {
+std::vector<double> *Coder::getL() {
     return &(this->l);
 }
 
@@ -89,9 +89,9 @@ std::vector<std::string> *Coder::getCode() {
     return &(this->code);
 }
 
-std::string Coder::decToBin(float num, int c) {
-    float intpart;
-    float buf = std::modf(num, &intpart);
+std::string Coder::decToBin(double num, int c) {
+    double intpart;
+    double buf = std::modf(num, &intpart);
     std::string cs = "";
 
     for (int i = 0; i < c; ++i) {
