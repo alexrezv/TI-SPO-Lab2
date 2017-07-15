@@ -16,7 +16,7 @@
 class Coder {
 private:
     std::vector<std::string> sourceAlphabet;
-    std::vector<float> p, q, l;
+    std::vector<double> p, q, l;
     std::vector<std::string> code;
     std::vector<std::string> lastEncryptedMessage;
 
@@ -33,18 +33,18 @@ private:
 
     void setLastEncryptedMessage(std::vector<std::string>);
 
-    std::string decToBin(float, int);
+    std::string decToBin(double, int);
 
 public:
     Coder(std::string, std::string);
 
     std::vector<std::string> *getSourceAlphabet();
 
-    std::vector<float> *getP();
+    std::vector<double> *getP();
 
-    std::vector<float> *getQ();
+    std::vector<double> *getQ();
 
-    std::vector<float> *getL();
+    std::vector<double> *getL();
 
     std::vector<std::string> *getCode();
 
