@@ -19,6 +19,8 @@ int main(int argc, char *argv[]) {
     const string actionDecode = "decode";
     const string optionStats = "-s";
 
+    int argsSize = sizeof(argv);
+
     if (!argv[1] || !argv[2]) {
         std::cerr << "usage: " << argv[0] << " [option] <messageFile> <action>" << std::endl;
         std::cerr << "Make sure you have those files alongside the program file:\n"
@@ -27,14 +29,21 @@ int main(int argc, char *argv[]) {
                 "Format of files - \"x1,x2,x3\" where each x in probabilityOfOccurrence file complies to an x in alphabet file\n"
                 "Be sure to use coder at least once before trying to decode a message.\n"
                 "Recognizable actions: \"code\" and \"decode\".\n"
-                "Available option: \"-s\" - show statistics for the generated code.";
+                "Available option: \"-s\" - show statistics for the generated code.\n";
         return 1;
+    }
+
+    if (actionDecode.compare(argv[2]) == 0) {
+        doDecode(argv[1]);
+        return 0;
     }
 
     if (actionCode.compare(argv[2]) == 0) {
         doCode(argv[1], false);
+        return 0;
     } else if (actionCode.compare(argv[3]) == 0 && optionStats.compare(argv[1]) == 0) {
-        doCode(argv[1], true);
+        doCode(argv[2], true);
+        return 0;
     }
 
     if (optionStats.compare(argv[1]) == 0 && actionDecode.compare(argv[2]) == 0) {
@@ -42,9 +51,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    if (actionDecode.compare(argv[2]) == 0) {
-        doDecode(argv[1]);
-    }
+
 
     return 0;
 }
@@ -86,10 +93,10 @@ void doDecode(string filename) {
 }
 
 void printStats(Coder coder) {
-    cout << "┌──────────────────────────────────────────────────────────┐" << endl;
-    cout << "│                   GENERATED CODE INFO                    │" << endl;
-    cout << "├──────────────────────────────────────────────────────────┤" << endl;
+    cout << "┌─────────────────────────────────────┐" << endl;
+    cout << "│          GENERATED CODE INFO        │" << endl;
+    cout << "├───────────────────────────┬─────────┤" << endl;
     CodeRater cr = CodeRater(coder.getP(), coder.getCode());
     cr.printCodeRate();
-    cout << "└──────────────────────────────────────────────────────────┘" << endl;
+    cout << "└─────────────────────────────────────┘" << endl;
 }

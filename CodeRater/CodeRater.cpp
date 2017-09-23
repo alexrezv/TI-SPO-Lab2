@@ -46,17 +46,24 @@ void CodeRater::checkKraftsInequality() {
     }
 
     if (kraftsSum < 1) {
-        std::cout << "│  Code is not optimal:\t" << kraftsSum << " < 1" << std::endl;
+        //std::cout << "│  Code is not optimal:\t" << kraftsSum << " < 1" << std::endl;
+        std::printf("│  Code is not optimal:\t %1.3f < 1    │\n", kraftsSum);
     } else if (kraftsSum > 1) {
-        std::cout << "│  Code is not optimal:\t" << kraftsSum << " > 1" << std::endl;
+        //std::cout << "│  Code is not optimal:\t" << kraftsSum << " > 1" << std::endl;
+        std::printf("│  Code is not optimal:\t %1.3f > 1    │\n", kraftsSum);
     } else {
-        std::cout << "│  Code is optimal:\t" << kraftsSum << " = 1" << std::endl;
+        //std::cout << "│  Code is optimal:\t" << kraftsSum << " = 1" << std::endl;
+        std::printf("│  Code is optimal:\t %1.3f = 1        │\n", kraftsSum);
     }
 }
 
 void CodeRater::printCodeRate() {
-    std::cout << "│  Entropy is\t" << this->entropy << std::endl;
-    std::cout << "│  Average codeword length is\t" << this->avgCodewordLength << std::endl;
-    std::cout << "│  Code redundancy is\t" << this->codeRedundancy << std::endl;
+    //std::cout << "│  Entropy is\t" << this->entropy << std::endl;
+    //std::cout << "│  Average codeword length is\t" << this->avgCodewordLength << std::endl;
+    //std::cout << "│  Code redundancy is\t" << this->codeRedundancy << std::endl;
+    std::printf("│  Entropy                  │  %1.3f  │\n", this->entropy);
+    std::printf("│  Average codeword length  │  %1.3f  │\n", this->avgCodewordLength);
+    std::printf("│  Code redundancy          │  %1.3f  │\n", this->codeRedundancy);
+    std::cout << "├───────────────────────────┴─────────┤" << std::endl;
     this->checkKraftsInequality();
 }
